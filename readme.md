@@ -39,10 +39,70 @@ In Taiwan the regulators are not completely specific as to the rules used, hence
     - "summary_px_vol" : 'https://www.twse.com.tw/en/page/trading/exchange/MI_INDEX.html#subtitle7',
     - "full_delivery": 'https://www.twse.com.tw/en/page/trading/exchange/TWT85U.html'
 - Zipped files for each of these datasets from 1/1/2022 through 10/31/2022 are included in this repository as follows:
-    - udacity-aws-machine-learning-nanodegree-capstone/taiwan-pe-pb-ratios-website-raw-01012022-10312022.zip
-    - udacity-aws-machine-learning-nanodegree-capstone/taiwan-shortsale-data-website-raw-01012022-10312022.zip
-    - udacity-aws-machine-learning-nanodegree-capstone/taiwan-summary-website-raw-01012022-10312022.zip
-    - udacity-aws-machine-learning-nanodegree-capstone/taiwan-watchlist-data-website-raw-01012022-10312022.zip
+    - ./use_this_data/ratios_01012022_10312022.parquet
+    - ./use_this_data/shortsales_01012022_10312022.parquet
+    - ./use_this_data/stockquotes_01012022_10312022.parquet
+    - ./use_this_data/watchlist_01012022_10312022.parquet
+- For each file, 'file_date' has been added to indicate the date of the file to be used in time-series analysis
+- Each file has a 'Security Code' column, which needed some cleaning. This cleaned columns is called "Security Code Clean"
+- Previews of these files are provided here:  
+    - **ratios_01012022_10312022.parquet**
+
+    |  | Security Code | Dividend yield (%) | Dividend year | P/E ratio | P/B ratio | Fiscal year / quarter | file_date | Security Code Clean |
+    |---:|---:|---:|---:|---:|---:|---:|---:|---:|
+    | 0 | 1101 | 6.61 | 2021 | 17.69 | 0.95 | 2022/2 | 2022-10-31 | 1101 |
+    | 1 | 1102 | 9.12 | 2021 | 9.21 | 0.85 | 2022/2 | 2022-10-31 | 1102 |
+    | 2 | 1103 | 4.10 | 2021 | 22.01 | 0.47 | 2022/2 | 2022-10-31 | 1103 |
+    | 3 | 1104 | 5.00 | 2021 | 9.17 | 0.67 | 2022/2 | 2022-10-31 | 1104 |
+    | 4 | 1108 | 5.85 | 2021 | 13.85 | 0.92 | 2022/2 | 2022-10-31 | 1108 |
+    | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+    | 960 | 9944 | 4.90 | 2021 | 4.11 | 0.66 | 2022/2 | 2022-10-31 | 9944 |
+    | 961 | 9945 | 17.68 | 2021 | 5.34 | 2.96 | 2022/2 | 2022-10-31 | 9945 |
+    | 962 | 9946 | 5.89 | 2021 | 18.33 | 0.59 | 2022/2 | 2022-10-31 | 9946 |
+    | 963 | 9955 | 0.00 | 2021 | NaN | 1.21 | 2022/2 | 2022-10-31 | 9955 |
+    | 964 | 9958 | 3.88 | 2021 | 19.35 | 2.54 | 2022/2 | 2022-10-31 | 9958 |  
+    
+    
+    - **shortsales_01012022_10312022.parquet**  
+
+    |  | Security Code | Trading Volume | Trading Value | file_date | Security Code Clean |
+    |---:|---:|---:|---:|---:|---:|
+    | 0 | ="0050" | 2 | 292950 | 2022-01-03 | 0050 |
+    | 1 | ="0051" | 0 | 0 | 2022-01-03 | 0051 |
+    | 2 | ="0052" | 0 | 0 | 2022-01-03 | 0052 |
+    | 3 | ="0053" | 0 | 0 | 2022-01-03 | 0053 |
+    | 4 | ="0054" | 0 | 0 | 2022-01-03 | 0054 |  
+    
+    
+    - **stockquotes_01012022_10312022.parquet**  
+
+    |  | Security Code | Trade Volume | Transaction | Trade Value | Opening Price | Highest Price | Lowest Price | Closing Price | Dir(+/-) | Change | Last Best Bid Price | Last Best Bid Volume | Last Best Ask Price | Last Best Ask Volume | Price-Earning ratio | file_date | Security Code Clean |  |
+    |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+    | 0 | ="0050" | 10298898 | 7670 | 1018326324 | 98.85 | 99.35 | 98.10 | 99.05 | + | 1.30 | 99.00 | 38 | 99.05 | 18 | 0.00 | 2022-10-31 | 0050 |
+    | 1 | ="0051" | 16197 | 125 | 797178 | 48.90 | 49.36 | 48.85 | 49.30 | + | 0.55 | 49.20 | 2 | 49.47 | 22 | 0.00 | 2022-10-31 | 0051 |
+    | 2 | ="0052" | 228184 | 238 | 18737072 | 81.80 | 82.70 | 81.35 | 82.45 | + | 1.70 | 82.45 | 24 | 82.50 | 1 | 0.00 | 2022-10-31 | 0052 |
+    | 3 | ="0053" | 10012 | 1000 | 481238 | 48.15 | 48.64 | 47.87 | 48.64 | + | 0.89 | 48.52 | 14 | 48.54 | 1 | 0.00 | 2022-10-31 | 0053 |
+    | 4 | ="0055" | 294071 | 226 | 6102097 | 20.83 | 20.86 | 20.69 | 20.70 | + | 0.06 | 20.69 | 4 | 20.70 | 21 | 0.00 | 2022-10-31 | 0055 |
+    | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |  
+
+    - **watchlist_01012022_10312022.parquet**  
+    
+    |  | Security Code | Periodic Call Auction Trading (see Remark below) | file_date | Security Code Clean |
+    |---:|---:|---:|---:|---:|
+    | 0 | 1213 |  | 2022-10-31 | 1213 |
+    | 1 | 1472 |  | 2022-10-31 | 1472 |
+    | 2 | 1512 | ** | 2022-10-31 | 1512 |
+    | 3 | 1538 | ** | 2022-10-31 | 1538 |
+    | 4 | 2025 |  | 2022-10-31 | 2025 |
+    | 5 | 2321 | ** | 2022-10-31 | 2321 |
+    | 6 | 2443 | ** | 2022-10-31 | 2443 |
+    | 7 | 3018 |  | 2022-10-31 | 3018 |
+    | 8 | 3043 | ** | 2022-10-31 | 3043 |
+    | 9 | 3536 | ** | 2022-10-31 | 3536 |
+    | 10 | 6225 | ** | 2022-10-31 | 6225 |
+    | 11 | 8101 | ** | 2022-10-31 | 8101 |
+    | 12 | 9110 |  | 2022-10-31 | 9110 |
+
 
 - Additional information surrounding the TWSE's irregularity rules are listed from the website here. These "rules" guided the data we collected and will inform the feature engineering. Most of the restrictions listed refer to Article 4 detailed in the attached, this simply refers to irregularity without further expanding on what that means. https://twse-regulation.twse.com.tw/m/en/LawContent.aspx?FID=FL007225
 - Article 4: At the close of trading each day, the TWSE will analyze the trading of exchange-listed securities (excluding foreign bonds, government bonds, and straight corporate bonds). Upon discovery of any of the following circumstances, the TWSE will announce related trading information (such as the degree of upward or downward movement in prices, trading volume, turnover rate, degree of concentration, price-to-earnings ratio, price to book ratio, long/short ratio, premium/discount percentage, sales quantity of borrowed securities, and day trading percentage).  
@@ -90,4 +150,4 @@ In Taiwan the regulators are not completely specific as to the rules used, hence
 ### Student summarizes a theoretical workflow for approaching a solution given the problem. A discussion is made as to what strategies may be employed, what analysis of the data might be required, or which algorithms will be considered. The workflow and discussion provided align with the qualities of the project. Small visualizations, pseudocode, or diagrams are encouraged but not required.
 - Overall strategy will be to perform EDA on the data first, within the AWS SageMaker notebook environment.
 - Secondly, scikit-learn and/or other ML framework libraries, including SageMaker container images, will be utilized to train various models described previously.
-- Lastly, various evaluation metrics will be observed and further exploratory opportunities will be and documented.
+- Lastly, various evaluation metrics will be observed and further exploratory opportunities will be documented.
