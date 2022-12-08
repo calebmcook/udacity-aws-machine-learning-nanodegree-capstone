@@ -44,7 +44,9 @@ Due to time constraints, further visual EDA has been forgone.
 
 #### Algorithms and techniques used in the project are thoroughly discussed and properly justified based on the characteristics of the problem.
 
-Based on
+Based on the documentation from Forecast, the algorithm will train the best predictor among several options. In particular for cases where many related timeseries (e.g. multliple SKUs for a retailer, or in our case multiple stocks on an exchange) whose behavior may have explanatory impact on the other timeseries, deep learning algorithms can be brought to bear to take advantage of this. Amazon's own DeepAR+ and CNN-QR algorithms are used for predicting product demand on Amazon.com, for example. Additionally, both static (non time-varying) item metadata as well as time-varying "related" data sets can be uploaded to Forecast. For example, weather data. In our case we will upload the watchlist data as the target timeseries and the closing price, short sales, p/b, p/e, and volumes data as related data frames.
+
+Additionally, Forecast can be instructed to handle missing values with various strategies. We will discuss that later on.
 
 ### Benchmark
 
@@ -58,7 +60,18 @@ There is no proper benchmark available. The baseline for the front office is to 
 
 #### All preprocessing steps have been clearly documented. Abnormalities or characteristics of the data or input that needed to be addressed have been corrected. If no data preprocessing is necessary, it has been clearly justified.
 
+Data was first obtained by downloading from the website as discssed in `proposal.md`. Additional preprocessing was completed in the notebook `twse-scraper.ipynb`:  
+- The dataset `stockquotes` required parsing specific lines within a summary file downloaded on a daily basis. 
+- As can be seen in the `info` dictionary, for each dataset, the needed columns, data types, and lines to skip at the top or bottom were defined. 
+- I had issues with non utf-8 encoded characters which I dealth with by replacing them using the pandas function `read_csv`.
+- I concatendated daily files for around 200 days or so into a single pandas dataframe, creating a new column called 'file_date' to indicate which file/date the data was from.
+- The Security Code column was not clean so I cleaned it using a regular expression.
+- The dataframes were saved as .parquet files.
 
+This data was uploaded to the repository, and subsequently I took additional steps within `01-EDA.ipynb`:
+
+- I ensured a common datetime index of the same length for all data, and exported 4 .parquet files for upload into Amazon Forecast.
+- I will deal with missing values direclty in the Forecast api calls.
 
 ### Implementation
 
