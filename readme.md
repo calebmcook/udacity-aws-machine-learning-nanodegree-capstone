@@ -7,3 +7,9 @@
 
 # Data Instructions
 Data has been scraped from the source website, as described `propsal.md`. To utilize this, you may import .parquet files from `use_this_data` directory, or follow the steps provided in `01-EDA.ipynb` to generate a single dataframe.
+
+# References
+- https://github.com/aws-samples/amazon-forecast-samples/blob/main/ForecastCheatSheet.md
+- https://docs.aws.amazon.com/forecast/latest/dg/what-is-forecast.html
+- https://github.com/aws-samples/amazon-forecast-samples/blob/main/notebooks/basic/Getting_Started/Amazon_Forecast_Quick_Start_Guide.ipynb
+- https://docs.aws.amazon.com/forecast/latest/dg/metrics.html#predictor-metrics
