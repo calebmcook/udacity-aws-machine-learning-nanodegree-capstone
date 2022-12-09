@@ -117,7 +117,40 @@ For my first experiment, per the best practices given above by AWS, I decided to
 
 I had to go back and format the exported data within `forecast_import` directory, because Forecast expects only 3 columns and no index : `item_id`, `timestamp`, and `target_value`. After doing that I also tried to indicate Taiwan holiday calendar but this wasn't an available choice within the Forecast API, despite there being 66 countries. China wasn't available either. Per the [exhange website](https://www.twse.com.tw/en/holidaySchedule/holidaySchedule), the holiday calendar includes unique holidays such as Chinese New Year, Children's day, and Mid-Autumn/Moon Festival, among others. In a future experiment, according to AWS documentation, we can account for custom holidays through a related timeseries data import in Forecast. Lack of this related data could affect accuracy because watch list data will reflect missing but this is only due to a holiday, rather than other features.
 
-![Results for Experiment 01](images/PREFUNDING_PREDICTOR_01_metrics.png)
+The featurizations used for Experiment-01 are listed below. Back and middle fill are appropriate for the target timeseries, as the null values for the watchlist are either due to weekends, holidays, or due to being not on the watchlist. Note that we will consider re-processing the watchlist dataset because it was constructed with nulls for all 3 instances (weekends, holidays, or not on watchlist), when weekend and holidays should be missing but business days should be the value of zero:  
+
+        {
+            "AttributeName": "target_value",
+            "Transformations": {
+                "aggregation": "sum",
+                "backfill": "zero",
+                "frontfill": "none",
+                "middlefill": "zero"
+            }
+        }  
+        
+For aggregation, the default by Forecast is sum. This applies when forecast frequency does not align to the target timeseries frequency. In our case they do align, so summation is not needed. For additional details, refer to docs at https://docs.aws.amazon.com/forecast/latest/dg/how-aggregation-works.html. For in depth on handling missing values in Forecast, see https://docs.aws.amazon.com/forecast/latest/dg/howitworks-missing-values.html.
+
+![Results for Experiment 01](images/PREFUNDING_PREDICTOR_01_metrics.png)  
+
+    Weighted Quantile Loss (wQL): [
+      {
+        "Quantile": 0.9,
+        "LossValue": 0.13846153846153844
+      },
+      {
+        "Quantile": 0.5,
+        "LossValue": 0.38461538461538464
+      },
+      {
+        "Quantile": 0.1,
+        "LossValue": 0.10769230769230768
+      }
+    ]
+    Root Mean Square Error (RMSE): 0.38682272190477407
+    Weighted Absolute Percentage Error (WAPE): 0.4653846153846153
+    Mean Absolute Percentage Error (MAPE): 0.051818181818181826
+    Mean Absolute Scaled Error (MASE): 1e-130`
 
 ## Results
 

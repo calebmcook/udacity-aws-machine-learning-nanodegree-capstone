@@ -1,0 +1,2 @@
+item_id,timestamp,target_value,backtestwindow_start_time,backtestwindow_end_time,p10,p50,p90
+4414,2022-10-31T00:00:00Z,0.0,2022-10-31T00:00:00,2022-10-31T00:00:00,0.0,0.0,1.0
