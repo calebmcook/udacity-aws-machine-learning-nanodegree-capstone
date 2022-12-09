@@ -1,2 +1,0 @@
-item_id,backtest_window,backtestwindow_start_time,backtestwindow_end_time,wQL[0.1],wQL[0.5],wQL[0.9],Average wQL,RMSE,WAPE,MAPE,MASE
-9110,Summary,2022-10-31T00:00:00,2022-10-31T00:00:00,0.0,0.0,0.0,0.0,0.020000000000000018,0.020000000000000018,0.020000000000000018,0.0

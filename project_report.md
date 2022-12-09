@@ -101,6 +101,12 @@ For general guidance I am refering to the cheatsheet here: https://github.com/aw
 
 #### The process of improving upon the algorithms and techniques used is clearly documented. Both the initial and final solutions are reported, along with intermediate solutions, if necessary.
 
+For all experiments, I will use a combination of the AWS console and Python SDK. I am choosing to use Auto Predictors, rather than the legacy predictors in Forecast. Per AWS:  
+
+    AutoPredictor is the default and preferred method to create a predictor with Amazon Forecast. AutoPredictor creates predictors by applying the optimal combination of algorithms for each time series in your dataset.
+
+    Predictors created with AutoPredictor are generally more accurate than predictors created with AutoML or manual selection. The Forecast Explainability and predictor retraining features are only available for predictors created with AutoPredictor.
+
 The process I am following is as follows:
 - Experiment 01: Train a predictor on target (watchlist) data only. Review accuracy metrics and decide on best ML algoritm to use, in case I need to stick with one algorithm throughout, per best practices above.
 - Experiment 02: Upload related dataset of closing prices, and train new predictor. Use Hyperparameter optimzation (HPO) on chosen algo. Evaluate accuracy.
