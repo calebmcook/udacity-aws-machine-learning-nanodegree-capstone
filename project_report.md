@@ -77,8 +77,7 @@ This data was uploaded to the repository, and subsequently I took additional ste
 
 #### The process for which metrics, algorithms, and techniques were implemented with the given datasets or input data has been thoroughly documented. Complications that occurred during the coding process are discussed.
 
-For guidance I am refering to the cheatsheet here: https://github.com/aws-samples/amazon-forecast-samples/blob/master/ForecastCheatSheet.md#tutorial :
-
+For general guidance I am refering to the cheatsheet here: https://github.com/aws-samples/amazon-forecast-samples/blob/master/ForecastCheatSheet.md#tutorial :
 
 ##### Iterating Models and What-if Best Practices
 
@@ -97,6 +96,11 @@ For guidance I am refering to the cheatsheet here: https://github.com/aws-sample
     For all future experiments, stick to this same algorithm, then use HPO=True. AutoML mode did a light HPO, to verify which algorithm is best, but the parameter optimization is not as deep as explicitly setting HPO toggled on for a single algorithm.
     Finally, when you have finished iterating, use the fixed algorithm and fixed Training Parameters from the last HPO Predictor.
     Iterating and scaling to value. Unlike Machine Learning Competitions, real life POCs are not about "highest accuracy at any cost". In real life, there is often a balance to think about: Accuracy, Scaleability, Effort. Since human time is expensive, there might be other activities of more value than trying to get the utmost extra amounts of accuracy out of Forecast models.
+
+#### Experiment 01
+For my first experiment, per the best practices given above by AWS, I decided to start by creating a predictor on the target timeseries (watchlist) only. This will help determine the best algorithm to use in Forecast which I will likely stick with.
+
+I had to go back and format the exported data within `forecast_import` directory, because Forecast expects only 3 columns and no index : `item_id`, `timestamp`, and `target_value`. After doing that I also tried to indicate Taiwan holiday calendar but this wasn't an available choice within the Forecast API, despite there being 66 countries. China wasn't available either. Per the [exhange website](https://www.twse.com.tw/en/holidaySchedule/holidaySchedule), the holiday calendar includes unique holidays such as Chinese New Year, Children's day, and Mid-Autumn/Moon Festival, among others. In a future experiment, according to AWS documentation, we can account for custom holidays through a related timeseries data import in Forecast. Lack of this related data could affect accuracy because watch list data will reflect missing but this is only due to a holiday, rather than other features.
 
 
 ### Refinement
