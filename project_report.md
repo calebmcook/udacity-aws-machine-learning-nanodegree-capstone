@@ -181,7 +181,9 @@ I generated a forecast using the AWS console but noticed that the full universe 
 | 1 |    9110 | 2022-11-01T00:00:00Z | 1.0 | 1.0 | 1.0 |
 | 3 |    9928 | 2022-11-01T00:00:00Z | 1.0 | 1.0 | 1.0 |
 
-![watchlist-11-01.png](watchlist-11-01.png)
+![images/watchlist-11-01.png](images/watchlist-11-01.png)
+
+Calculating the recall based on this single forecast, using (TP / (TP + FN)), we get (13/(13+0)) = 100%. While this seems reassuring, we will proceed with further experimentation. For the front office, the P90 and P95 forecasts would be of highest interest.
 
 ## Results
 
