@@ -185,6 +185,32 @@ I generated a forecast using the AWS console but noticed that the full universe 
 
 Calculating the recall based on this single forecast, using (TP / (TP + FN)), we get (13/(13+0)) = 100%. While this seems reassuring, we will proceed with further experimentation. For the front office, the P90 and P95 forecasts would be of highest interest.
 
+#### Experiment 01.2
+For this experiment I trained a new predictor on updated watchlist data, and used a forecast horizon of 5 days instead of 1. The updated data relects the need as mentioned above to correctly show 0 value for days that a stock had trading and was on the exchange, but was not on the watchlist. Null values would mean weekends, holidays, and/or the stock began/ended trading on the exchange.
+
+After training the predictor I see a marked improvement in the accuracy metrics:
+
+![images/PREFUNDING_PREDICTOR_01_02.metrics.png](images/PREFUNDING_PREDICTOR_01_02.metrics.png)
+
+    Weighted Quantile Loss (wQL): [
+      {
+        "Quantile": 0.9,
+        "LossValue": 0.033315385946153776
+      },
+      {
+        "Quantile": 0.5,
+        "LossValue": 0.024813485476922994
+      },
+      {
+        "Quantile": 0.1,
+        "LossValue": 0.038043852469230935
+      }
+    ]
+    Root Mean Square Error (RMSE): 0.0069419847508758
+    Weighted Absolute Percentage Error (WAPE): 0.06988694954358965
+    Mean Absolute Percentage Error (MAPE): 0.00024693699124686194
+    Mean Absolute Scaled Error (MASE): 0.0008089736696903767
+
 ## Results
 
 ### Model Evaluation and Validation
