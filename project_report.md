@@ -236,6 +236,8 @@ While this solved the issue of missing stocks due to the fact that there are 119
 | 6225    | 2022-11-04T00:00:00Z | 0.941486  | 0.973283 | 1.022647 |
 | 6225    | 2022-11-05T00:00:00Z | 0.000745  | 0.006251 | 0.011074 |
 
+If we calculate the recall for 11/1 at the p90 level, assuming that we round to the nearest integer, we would see (TP / (TP + FN)) = (4 / (4 + 0)) = 100%. However, if we continue to treat nulls as a prediction of 0, then the recall for 11/1 becomes (4/(4+9)) = 30.7%.
+
 ## Results
 
 ### Model Evaluation and Validation
