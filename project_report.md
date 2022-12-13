@@ -280,8 +280,14 @@ After training the predictor I see further marked improvement in the accuracy me
     
 When I uploaded the target timseries I dropped the row of data for 10/31/2022, so that the related dataset would be "future-filled" with 10/31 data, simulating having the exchange's closing data on T for prices, volumes, etc. Since the prediction interval is 1 day, this would enable the algorithm to predict 10/31. Because 10/31 is a Monday, this left the latest timestamp in the watchlist timeseries to be Friday, 10/28. When running the prediction, Forecast provided a prediction for 10/29, which is Saturday. Saturday wouldn't be an actual trading day, and so we need to determine the best way to predict Monday's watchlist based on Friday's closing values. This will be a TODO item for future investigation. The forecasts were all very close to zero for the entire dataset, which is what we would expect on a weekend, but we just can't use that for trading purposes.
 
-### Experiment 02-02
-To remedy the above, I will re-train a predictor using watchlist data with 10/31/2022 and 10/28 dropped from the watchlist so that the latest target date will be Thursday 10/27. I will drop 10/31 from the rds dataset so that the latest rds data will be "future-filled" to 10/28.
+## Results
+
+### Model Evaluation and Validation
+
+#### The final model’s qualities—such as parameters—are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+
+## Final Experiment 02-02
+To remedy the above issues, I trained a predictor using watchlist data with 10/31/2022 and 10/28 dropped from the watchlist so that the latest target date will be Thursday 10/27. I will drop 10/31 from the rds dataset so that the latest rds data will be "future-filled" to 10/28.
 
 After training the predictor I see a reduction in accuracy from experiment 01-02:  
 
@@ -308,12 +314,79 @@ After training the predictor I see a reduction in accuracy from experiment 01-02
 
 Further investigation is needed to determine the cause. For example, using the explainability feature, we can see which factors may help explain the forecasts.
 
-## Results
+Actual list from 10/28:  
 
-### Model Evaluation and Validation
+|        | item_id | timestamp           | target_value |
+|--------|---------|---------------------|--------------|
+| 233136 | 1213    | 2022-10-28 00:00:00 | 1.0          |
+| 233220 | 1472    | 2022-10-28 00:00:00 | 1.0          |
+| 233229 | 1512    | 2022-10-28 00:00:00 | 1.0          |
+| 233252 | 1538    | 2022-10-28 00:00:00 | 1.0          |
+| 233344 | 2025    | 2022-10-28 00:00:00 | 1.0          |
+| 233395 | 2321    | 2022-10-28 00:00:00 | 1.0          |
+| 233480 | 2443    | 2022-10-28 00:00:00 | 1.0          |
+| 233659 | 3018    | 2022-10-28 00:00:00 | 1.0          |
+| 233683 | 3043    | 2022-10-28 00:00:00 | 1.0          |
+| 233746 | 3536    | 2022-10-28 00:00:00 | 1.0          |
+| 233935 | 6225    | 2022-10-28 00:00:00 | 1.0          |
+| 234031 | 8101    | 2022-10-28 00:00:00 | 1.0          |
+| 234080 | 9110    | 2022-10-28 00:00:00 | 1.0          |
 
-#### The final model’s qualities—such as parameters—are evaluated in detail. Some type of analysis is used to validate the robustness of the model’s solution.
+Showing the 5-day predictions for the 13 stocks that show up on the actual watchlist for 11/01/2022:  
+
+| item_id | date                 | p10      | p50      | p90      |
+|---------|----------------------|----------|----------|----------|
+| 1213    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 1472    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 1512    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 1538    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 2025    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 2321    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 2443    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 3018    | 2022-10-28T00:00:00Z | 0.754770 | 1.003360 | 1.251950 |
+| 3043    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 3536    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 6225    | 2022-10-28T00:00:00Z | 0.647320 | 0.917718 | 1.188116 |
+| 8101    | 2022-10-28T00:00:00Z | 0.602923 | 0.908494 | 1.214065 |
+| 9110    | 2022-10-28T00:00:00Z | 0.779972 | 1.012397 | 1.244822 |
+
+Looking at the following distribution of p90 predictions for the stocks that were on the alert list, we get the following distribution:
+
+    count    13.000000
+    mean      1.199384
+    std       0.022937
+    min       1.188116
+    25%       1.188116
+    50%       1.188116
+    75%       1.188116
+    max       1.251950
+    Name: p90, dtype: float64
+    
+The distribution of p90 predictions for the stocks that were NOT on the watchlist is:
+
+    count    1182.000000
+    mean        0.002383
+    std         0.027927
+    min         0.000000
+    25%         0.000000
+    50%         0.000000
+    75%         0.000000
+    max         0.423319
+    Name: p90, dtype: float64
+
+This suggests that if we were to take the rounded p90 value we would have matched the actual watch list for 10/28, which is would give a high recall.
+
+The overall accuracy metrics have shown improvement since experiment 01, but they still lack a quality of communicability with business process owners. RMSE, or wQL can be explained but they do not convey the sense of classification accuracy that recall or sensitivity will. 
 
 ### Justificatiion
 
 #### The final results are compared to the benchmark result or threshold with some type of statistical analysis. Justification is made as to whether the final model and solution is significant enough to have adequately solved the problem.
+
+Despite limitations listed above, the results seem to be superior than a random guess or other naive benchmark.
+
+As such, we would like to proprose possible future avenues of investigation:
+
+    - Train a standard binary classifier in sci-kit learn or other library, taking the approach of using features to encode lags, e.g. closing price 2,5,10 days ago, etc. Beginning with a logistic regression and proceeding from there, we can iteratively improve our understanding but from the beginning achieve better metrics which can be communicated to the business.
+    - Pursuing additional investigation within Amazon Forecast, we can upload item metadata such as float adjusted shares (to help differentiate large cap, small cap stocks, etc.), as well as generate additional related timeseries characteristics such as turnover. Lastly we could upload a custom RDS for Taiwan stock exchange holidays.
+    
+We aren't yet to the point of claiming a viable, operationalizable model to give to the business but are further along and have learned about available advanced machine learning services such as Amazon Forecast.
