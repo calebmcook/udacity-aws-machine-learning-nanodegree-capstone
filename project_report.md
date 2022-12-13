@@ -282,7 +282,32 @@ When I uploaded the target timseries I dropped the row of data for 10/31/2022, s
 
 ### Experiment 02-02
 To remedy the above, I will re-train a predictor using watchlist data with 10/31/2022 and 10/28 dropped from the watchlist so that the latest target date will be Thursday 10/27. I will drop 10/31 from the rds dataset so that the latest rds data will be "future-filled" to 10/28.
-          
+
+After training the predictor I see a reduction in accuracy from experiment 01-02:  
+
+![images/PREFUNDING_PREDICTOR_02_02_metrics.png](images/PREFUNDING_PREDICTOR_02_02_metrics.png)
+
+    Weighted Quantile Loss (wQL): [
+      {
+        "Quantile": 0.9,
+        "LossValue": 0.09947788085321617
+      },
+      {
+        "Quantile": 0.5,
+        "LossValue": 0.034191043409598214
+      },
+      {
+        "Quantile": 0.1,
+        "LossValue": 0.0878458818755974
+      }
+    ]
+    Root Mean Square Error (RMSE): 0.005397236911839607
+    Weighted Absolute Percentage Error (WAPE): 0.034191043409598214
+    Mean Absolute Percentage Error (MAPE): 0.00014707609014489434
+    Mean Absolute Scaled Error (MASE): 1e-130
+
+Further investigation is needed to determine the cause. For example, using the explainability feature, we can see which factors may help explain the forecasts.
+
 ## Results
 
 ### Model Evaluation and Validation
