@@ -238,6 +238,19 @@ While this solved the issue of missing stocks due to the fact that there are 119
 
 If we calculate the recall for 11/1 at the p90 level, assuming that we round to the nearest integer, we would see (TP / (TP + FN)) = (4 / (4 + 0)) = 100%. However, if we continue to treat nulls as a prediction of 0, then the recall for 11/1 becomes (4/(4+9)) = 30.7%.
 
+#### Experiment 02
+For experiment 2, I will add a related dataset. This will include closing prices, trading volume, short trade volume, pe ratios, and pb ratios. In the terminology of Amazon Forecast, this will be a 'related timeseries' (RTS) that is "future-looking". See https://docs.aws.amazon.com/forecast/latest/dg/related-time-series-datasets.html for details. Additionally, there are requirements for these RTS datasets. One is that there can only be 1 RTS per dataset group, so I will include all columns mentioned in the same dataset. Second, RTS cannot have missing values. Forecast can handle missing values when creating a predictor through a 'FeaturizationPipeline' object (see https://docs.aws.amazon.com/forecast/latest/dg/howitworks-missing-values.html). Because there are missing values (notably the ratios features), we will either have to use pandas to fill these, or have them filled in Forecast. We have to specify the filling logic as there is no default in Forecast. Each column should be considered independently for the appropriate filling logic. In the case of trade volume and short sale volume, zero is an acceptable value and if the data was missing we will assume for the time being that the volume was zero. However for closing price and ratios, price would not be expected to be zero, so for missing ratios we will fill with 'mean' method, which takes the mean of the most recent 64 time periods before the missing value.
+
+    #count of nulls per column
+    
+    item_id               0
+    timestamp             0
+    close_px           2961
+    pe_ratio          67127
+    pb_ratio          40955
+    trade_volume          0
+    ss_trading_vol    10356
+
 ## Results
 
 ### Model Evaluation and Validation
