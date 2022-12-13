@@ -15,3 +15,4 @@ Data has been scraped from the source website, as described `propsal.md`. To uti
 - https://docs.aws.amazon.com/forecast/latest/dg/metrics.html#predictor-metrics
 - https://github.com/aws-samples/amazon-forecast-samples/blob/main/notebooks/advanced/Incorporating_Related_Time_Series_dataset_to_your_Predictor/Incorporating%20Related%20Time%20Series%20dataset%20to%20your%20Predictor.ipynb
 - https://aws.amazon.com/forecast/features/
+- https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/forecast.html#

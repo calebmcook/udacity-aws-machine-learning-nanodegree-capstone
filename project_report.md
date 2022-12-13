@@ -254,7 +254,31 @@ For experiment 2, I will add a related dataset. This will include closing prices
     pb_ratio          40955
     trade_volume          0
     ss_trading_vol    10356
+    
+After training the predictor I see further marked improvement in the accuracy metrics:
 
+![images/PREFUNDING_PREDICTOR_02_metrics.png](images/PREFUNDING_PREDICTOR_02_metrics.png)
+
+    Weighted Quantile Loss (wQL): [
+      {
+        "Quantile": 0.9,
+        "LossValue": 0.0023358869923076784
+      },
+      {
+        "Quantile": 0.5,
+        "LossValue": 0.003350276946153817
+      },
+      {
+        "Quantile": 0.1,
+        "LossValue": 0.0035952148061538505
+      }
+    ]
+    Root Mean Square Error (RMSE): 0.00019648022926739092
+    Weighted Absolute Percentage Error (WAPE): 0.00349125073846155
+    Mean Absolute Percentage Error (MAPE): 1.8640542092050313e-05
+    Mean Absolute Scaled Error (MASE): 1e-130
+
+          
 ## Results
 
 ### Model Evaluation and Validation
