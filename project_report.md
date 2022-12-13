@@ -277,6 +277,11 @@ After training the predictor I see further marked improvement in the accuracy me
     Weighted Absolute Percentage Error (WAPE): 0.00349125073846155
     Mean Absolute Percentage Error (MAPE): 1.8640542092050313e-05
     Mean Absolute Scaled Error (MASE): 1e-130
+    
+When I uploaded the target timseries I dropped the row of data for 10/31/2022, so that the related dataset would be "future-filled" with 10/31 data, simulating having the exchange's closing data on T for prices, volumes, etc. Since the prediction interval is 1 day, this would enable the algorithm to predict 10/31. Because 10/31 is a Monday, this left the latest timestamp in the watchlist timeseries to be Friday, 10/28. When running the prediction, Forecast provided a prediction for 10/29, which is Saturday. Saturday wouldn't be an actual trading day, and so we need to determine the best way to predict Monday's watchlist based on Friday's closing values. This will be a TODO item for future investigation. The forecasts were all very close to zero for the entire dataset, which is what we would expect on a weekend, but we just can't use that for trading purposes.
+
+### Experiment 02-02
+To remedy the above, I will keep the same predictor as before and upload new datasets to Amazon Forecast within the current dataset group, per instructions by AWS here: https://docs.aws.amazon.com/forecast/latest/dg/updating-data.html. This will simulate operational use of a trained predictor too, because one option would be that the trading service team will need to run new predictions 5 days a week, based on new data from the exchange after close of trading.
 
           
 ## Results
