@@ -67,7 +67,7 @@ There is no proper benchmark available. The baseline for the front office is to 
 Data was first obtained by downloading from the website as discssed in `proposal.md`. Additional preprocessing was completed in the notebook `twse-scraper.ipynb`:  
 - The dataset `stockquotes` required parsing specific lines within a summary file downloaded on a daily basis. 
 - As can be seen in the `info` dictionary, for each dataset, the needed columns, data types, and lines to skip at the top or bottom were defined. 
-- I had issues with non utf-8 encoded characters which I dealth with by replacing them using the pandas function `read_csv`.
+- I had issues with non utf-8 encoded characters which I dealt with by replacing them using the pandas function `read_csv`.
 - I concatendated daily files for around 200 days or so into a single pandas dataframe, creating a new column called 'file_date' to indicate which file/date the data was from.
 - The Security Code column was not clean so I cleaned it using a regular expression.
 - The dataframes were saved as .parquet files.
@@ -105,7 +105,9 @@ For general guidance I am refering to the cheatsheet here: https://github.com/aw
 
 #### The process of improving upon the algorithms and techniques used is clearly documented. Both the initial and final solutions are reported, along with intermediate solutions, if necessary.
 
-For all experiments, I will use a combination of the AWS console and Python SDK. I am choosing to use Auto Predictors, rather than the legacy predictors in Forecast. Per AWS:  
+For all experiments, I will use a combination of the AWS console and Python SDK. I am choosing to use Auto Predictors, rather than the legacy predictors in Forecast. All code related to training predictors and other api calls to Amazon Forecast can be found in the notebook `02-Forecasting.ipynb`
+
+Per AWS:  
 
     AutoPredictor is the default and preferred method to create a predictor with Amazon Forecast. AutoPredictor creates predictors by applying the optimal combination of algorithms for each time series in your dataset.
 
@@ -332,7 +334,7 @@ Actual list from 10/28:
 | 234031 | 8101    | 2022-10-28 00:00:00 | 1.0          |
 | 234080 | 9110    | 2022-10-28 00:00:00 | 1.0          |
 
-Showing the 5-day predictions for the 13 stocks that show up on the actual watchlist for 11/01/2022:  
+Showing the 1-day predictions for the 13 stocks that show up on the actual watchlist for 11/01/2022:  
 
 | item_id | date                 | p10      | p50      | p90      |
 |---------|----------------------|----------|----------|----------|
@@ -386,7 +388,7 @@ Despite limitations listed above, the results seem to be superior than a random 
 
 As such, we would like to proprose possible future avenues of investigation:
 
-    - Train a standard binary classifier in sci-kit learn or other library, taking the approach of using features to encode lags, e.g. closing price 2,5,10 days ago, etc. Beginning with a logistic regression and proceeding from there, we can iteratively improve our understanding but from the beginning achieve better metrics which can be communicated to the business.
-    - Pursuing additional investigation within Amazon Forecast, we can upload item metadata such as float adjusted shares (to help differentiate large cap, small cap stocks, etc.), as well as generate additional related timeseries characteristics such as turnover. Lastly we could upload a custom RDS for Taiwan stock exchange holidays.
+  - Train a standard binary classifier in sci-kit learn or other library, taking the approach of using features to encode lags, e.g. closing price 2,5,10 days ago, etc. Beginning with a logistic regression and proceeding from there, we can iteratively improve our understanding but from the beginning achieve better metrics which can be communicated to the business.
+  - Pursuing additional investigation within Amazon Forecast, we can upload item metadata such as float adjusted shares (to help differentiate large cap, small cap stocks, etc.), as well as generate additional related timeseries characteristics such as turnover. Lastly we could upload a custom RDS for Taiwan stock exchange holidays.
     
 We aren't yet to the point of claiming a viable, operationalizable model to give to the business but are further along and have learned about available advanced machine learning services such as Amazon Forecast.
